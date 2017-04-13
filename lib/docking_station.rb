@@ -22,7 +22,7 @@ class DockingStation
 
   def dock(bike)
     ## raise an error if someone wants to DOCK a bike because there's no room
-    if @bike_space.count == 1
+    if @bike_space.count == 20
       raise "There's a bike here, so you can't dock, sorry"
     else
       @bike = bike
