@@ -27,10 +27,14 @@ describe DockingStation do
 
   it 'produces an error if docking station is full' do
     bike = Bike.new
-    DockingStation::DEFAULT_CAPABILITY.times do
+    subject.instance_variable_get(:@capacity).times do
       subject.dock Bike.new
     end
     expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
+  end
+
+  it 'takes an argument when creating a new DockingStation instance for the capacity' do
+    expect(subject.capacity).to eq 20
   end
 
 end
