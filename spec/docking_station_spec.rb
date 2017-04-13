@@ -36,29 +36,29 @@ describe DockingStation do
   ## tests whether or not a dockingstation can receive a bike when it is docked'
     it { is_expected.to respond_to(:dock).with(1).argument}
 
-    it { is_expected.to respond_to(:bike) }
+    it { is_expected.to respond_to(:bikes) }
 
     it 'tests whether or not a bike is docked' do
       bike = Bike.new
-      expect(subject.dock(bike)).to eq bike
+      expect(subject.dock(bike)).to include bike
     end
 
     it 'returns docked bikes' do
       bike = Bike.new
       subject.dock(bike)
-      expect(subject.bike).to eq bike
+      expect(subject.bikes).to include bike
     end
 
     it 'produces an error if docking station has no bikes' do
-      subject.instance_variable_set(:@bike_space, [])
+      subject.instance_variable_set(:@capacity, [])
       expect {subject.release_bike}.to raise_error 'No bikes available'
     end
 
     it 'produces an error if docking station is full' do
       bike = Bike.new
-      #subject.instance_variable_set(:@bike_space, ['1', '2', '3', '4', '5', '6', '7', '8', '9',
+      #subject.instance_variable_set(:@capacity, ['1', '2', '3', '4', '5', '6', '7', '8', '9',
       #                                             '10', '11', '12', '13', '14', '15', '16', '17', '18', '19', '20'])
-      20.times { subject.bike_space.push(Bike.new) }
+      20.times { subject.capacity.push(Bike.new) }
       expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
     end
 
