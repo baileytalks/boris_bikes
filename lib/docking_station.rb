@@ -2,30 +2,37 @@ class DockingStation
   attr_reader :bikes, :capacity
 
   def initialize
-    super
-    @bikes      = [ ]
+    @bikes = [ ]
   end
 
   def release_bike
     ## raise an error if someone wants to RENT a bike because there isn't one in the space
-#    if @capacity.count == 0
-#      raise "No bikes available"
-#    else
-#      Bike.new
-#    end
-      if @bikes.empty?
-        raise "No bikes available"
-      else
-      @bikes.pop
-    end
+    @bikes.pop if empty?; error
   end
 
   def dock(bike)
     ## raise an error if someone wants to DOCK a bike because there's no room
-    if @bikes.count >= 20
-      raise "There's a bike here, so you can't dock, sorry"
+    if full?; error
     else
       @bikes.push(bike)
     end
   end
+
+  private
+    def full?
+      @bikes.count >= 20
+    end
+
+    def empty?
+      @bikes.empty?
+    end
+
+  def error
+    if full?
+      raise "There's a bike here, so you can't dock, sorry"
+    elsif empty?
+      raise "No bikes available"
+    end
+  end
+
 end
