@@ -3,7 +3,6 @@ class DockingStation
 
   def initialize
     super
-    @capacity = [ ]
     @bikes      = [ ]
   end
 
@@ -14,7 +13,7 @@ class DockingStation
 #    else
 #      Bike.new
 #    end
-      if @capacity.count == 0
+      if @bikes.empty?
         raise "No bikes available"
       else
       @bikes.pop
@@ -23,7 +22,7 @@ class DockingStation
 
   def dock(bike)
     ## raise an error if someone wants to DOCK a bike because there's no room
-    if @capacity.count == 20
+    if @bikes.count >= 20
       raise "There's a bike here, so you can't dock, sorry"
     else
       @bikes.push(bike)
