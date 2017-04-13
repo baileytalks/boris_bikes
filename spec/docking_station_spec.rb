@@ -5,10 +5,10 @@ describe DockingStation do
 
   it { is_expected.to respond_to :release_bike }
 
-  it 'releases working bikes' do
-    bike = subject.release_bike
-    expect(bike.working?).to(eq(true))
-  end
+#  it 'releases working bikes' do
+#    bike = subject.release_bike
+#    expect(bike.working?).to(eq(true))
+#  end
 
   ## it 'allows a new DockingStation instance to receive a bike' do
   ##  is_expected.to respond_to :dock_bike
@@ -49,8 +49,15 @@ describe DockingStation do
       expect(subject.bike).to eq bike
     end
 
-    it 'produces an error if docking station has no capacity' do
-      expect {subject.capacity.count == 0}.to raise_error
+    it 'produces an error if docking station has no bikes' do
+      subject.instance_variable_set(:@bike_space, [])
+      expect {subject.release_bike}.to raise_error 'No bikes available'
+    end
+
+    it 'produces an error if docking station is full' do
+      bike = Bike.new
+      subject.instance_variable_set(:@bike_space, [1])
+      expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
     end
 
 end
