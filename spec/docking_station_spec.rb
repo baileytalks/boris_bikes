@@ -49,4 +49,8 @@ describe DockingStation do
       expect(subject.bike).to eq bike
     end
 
+    it 'produces an error if docking station has no capacity' do
+      expect {subject.capacity.count == 0}.to raise_error
+    end
+
 end
