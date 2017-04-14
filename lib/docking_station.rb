@@ -10,14 +10,10 @@ class DockingStation
   end
 
   def release_bike
-    # display_error if empty?
-    # display_error if first_bike_working? == false
-    # @bikes.shift
-
     if empty?
        display_error
     else
-    ## iteration below
+      ## iterate over the bikes in the array and only return a working bike
       released_bike = ''
       @bikes.each_with_index do | bike, i |
         if @bikes[i].working == false
@@ -26,19 +22,12 @@ class DockingStation
           released_bike = @bikes.delete_at(i)
         end
       end
-
-      # if @bikes[-1].instance_variable_get(:@working) == false
-      #     raise "No bikes available"
-      # end
-
-        # if @bikes.last.instance_variable_get(:@working) == false
-        #   p @bikes.last.instance_variable_get(:@working)
-        #   raise "No bikes available"
-        # else
-        #
-        # end
-
-      released_bike
+      ## If the docking_station only has broken bikes, it should return an error
+        if released_bike == ''
+          display_error
+        else
+          released_bike
+        end
     end
   end
 
@@ -65,7 +54,7 @@ class DockingStation
     def display_error
       if full?
         raise "This station is full, so you can't dock, sorry"
-      elsif empty? || first_bike_working? == false
+      else
         raise "No bikes available"
       end
     end
