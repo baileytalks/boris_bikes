@@ -33,8 +33,13 @@ describe DockingStation do
     expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
   end
 
-  it 'takes an argument when creating a new DockingStation instance for the capacity' do
-    expect(subject.capacity).to eq 20
+  it 'expect default as 20 when creating a new DockingStation instance for the capacity' do
+    expect(subject.capacity).to eq DockingStation::DEFAULT_CAPACITY
+  end
+
+  it 'expect a new DockingStation instance to take an argument to change the capacity' do
+    docking_station5 = DockingStation.new(5)
+    expect(docking_station5.capacity).to eq 5
   end
 
 end
