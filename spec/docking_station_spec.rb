@@ -21,13 +21,14 @@ describe DockingStation do
   end
 
   it 'produces an error if docking station has no bikes' do
-    subject.instance_variable_set(:@bikes, [])
+  # subject.instance_variable_set(:@bikes, [])
     expect {subject.release_bike}.to raise_error 'No bikes available'
   end
 
   it 'produces an error if docking station is full' do
     bike = Bike.new
-    subject.instance_variable_get(:@capacity).times do
+    # subject.instance_variable_get(:@capacity).times do
+      subject.capacity.times do
       subject.dock Bike.new
     end
     expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
