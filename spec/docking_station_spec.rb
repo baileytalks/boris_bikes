@@ -49,11 +49,11 @@ describe DockingStation do
       expect(subject.dock(bike)).to include bike
     end
     it 'expect a user to be able to dock a broken bike, even in an array with working bikes' do
-      broken_bike = double(:bike)
+      broken_bike = double("broken_bike", :report_broken => false)
       bike = double(:bike)
       station = DockingStation.new
       station.dock(bike)
-      allow(broken_bike).to receive(:report_broken).and_return(false)
+      # allow(broken_bike).to receive(:report_broken).and_return(false)
       broken_bike.report_broken
       expect(station.dock(broken_bike)).to include broken_bike
     end
@@ -72,27 +72,27 @@ describe DockingStation do
 
   describe '#release_bike' do
     it "should release a bike if there's one available" do
-      bike = double(:bike)
+      bike = double("bike", :working => true)
       subject.dock(bike)
-      allow(bike).to receive(:working).and_return(true)
+      # allow(bike).to receive(:working).and_return(true)
       expect(subject.release_bike).to eq bike
     end
 
     it "shouldn't release a bike if it's broken" do
-      bike = double(:bike)
-      allow(bike).to receive(:report_broken).and_return(false)
-      allow(bike).to receive(:working).and_return(false)
+      bike = double("bike", :report_broken => false, :working => false)
+      # allow(bike).to receive(:report_broken).and_return(false)
+      # allow(bike).to receive(:working).and_return(false)
       bike.report_broken
       subject.dock(bike)
       expect { subject.release_bike }.to raise_error "No bikes available"
     end
 
     it "should release a working bike if there's one at the docking station, even if the first one is broken" do
-      bike = double(:bike)
-      broken_bike = double(:bike)
-      allow(broken_bike).to receive(:report_broken).and_return(false)
-      allow(broken_bike).to receive(:working).and_return(false)
-      allow(bike).to receive(:working).and_return(true)
+      bike = double("bike", :working => true)
+      broken_bike = double("broken_bike", :report_broken => false, :working => false)
+      # allow(broken_bike).to receive(:report_broken).and_return(false)
+      # allow(broken_bike).to receive(:working).and_return(false)
+      # allow(bike).to receive(:working).and_return(true)
       broken_bike.report_broken
       docking_station = DockingStation.new
       docking_station.dock(broken_bike)
