@@ -43,6 +43,21 @@ describe DockingStation do
     expect(docking_station5.capacity).to eq 5
   end
 
+  describe '#dock' do
+    it 'expect a user to be able to dock working bikes' do
+      bike = Bike.new
+      expect(subject.dock(bike)).to include bike
+    end
+    it 'expect a user to be able to dock a broken bike, even in an array with working bikes' do
+      broken_bike = Bike.new
+      bike = Bike.new
+      station = DockingStation.new
+      station.dock(bike)
+      broken_bike.report_broken
+      expect(station.dock(broken_bike)).to include broken_bike
+    end
+  end
+
   describe 'initalization' do
     subject { DockingStation.new }
     let(:bike) { Bike.new }
