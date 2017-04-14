@@ -31,7 +31,7 @@ class DockingStation
 
     def display_error
       if full?
-        raise "There's a bike here, so you can't dock, sorry"
+        raise "This station is full, so you can't dock, sorry"
       elsif empty?
         raise "No bikes available"
       end

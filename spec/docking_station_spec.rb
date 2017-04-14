@@ -31,7 +31,7 @@ describe DockingStation do
       subject.capacity.times do
       subject.dock Bike.new
     end
-    expect {subject.dock(bike)}.to raise_error "There's a bike here, so you can't dock, sorry"
+    expect {subject.dock(bike)}.to raise_error "This station is full, so you can't dock, sorry"
   end
 
   it 'expect default as 20 when creating a new DockingStation instance for the capacity' do
@@ -41,6 +41,25 @@ describe DockingStation do
   it 'expect a new DockingStation instance to take an argument to change the capacity' do
     docking_station5 = DockingStation.new(5)
     expect(docking_station5.capacity).to eq 5
+  end
+
+#  describe 'initalization' do
+#    it 'has a variable capacity' do
+#      docking_station5 = DockingStation.new(5)
+#      5.times { docking_station5.dock Bike.new }
+#      expect{ docking_station5.dock Bike.new }.to raise_error "This station is full, so you can't dock, sorry"
+#    end
+#  end
+
+  describe 'initalization' do
+    subject { DockingStation.new }
+    let(:bike) { Bike.new }
+    it 'defaults capacity' do
+      DockingStation::DEFAULT_CAPACITY.times do
+        subject.dock(bike)
+      end
+      expect { subject.dock(bike) }.to raise_error "This station is full, so you can't dock, sorry"
+    end
   end
 
 end
