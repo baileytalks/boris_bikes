@@ -22,7 +22,7 @@ describe DockingStation do
 
   it 'produces an error if docking station has no bikes' do
   # subject.instance_variable_set(:@bikes, [])
-    expect {subject.release_bike}.to raise_error 'No bikes available'
+    expect {subject.release_bike}.to raise_error "No bikes available"
   end
 
   it 'produces an error if docking station is full' do
@@ -43,14 +43,6 @@ describe DockingStation do
     expect(docking_station5.capacity).to eq 5
   end
 
-#  describe 'initalization' do
-#    it 'has a variable capacity' do
-#      docking_station5 = DockingStation.new(5)
-#      5.times { docking_station5.dock Bike.new }
-#      expect{ docking_station5.dock Bike.new }.to raise_error "This station is full, so you can't dock, sorry"
-#    end
-#  end
-
   describe 'initalization' do
     subject { DockingStation.new }
     let(:bike) { Bike.new }
@@ -62,4 +54,28 @@ describe DockingStation do
     end
   end
 
+  describe '#release_bike' do
+    it "should release a bike if there's one available" do
+      bike = Bike.new
+      subject.dock(bike)
+      expect(subject.release_bike).to eq bike
+    end
+
+    it "shouldn't release a bike if it's broken" do
+      bike = Bike.new
+      bike.report_broken
+      subject.dock(bike)
+      expect { subject.release_bike }.to raise_error "No bikes available"
+    end
+
+    it "should release a working bike if there's one at the docking station, even if the first one is broken" do
+      bike = Bike.new
+      broken_bike = Bike.new
+      broken_bike.report_broken
+      docking_station = DockingStation.new
+      docking_station.dock(broken_bike)
+      docking_station.dock(bike)
+      expect(docking_station.release_bike).to eq bike
+    end
+  end
 end

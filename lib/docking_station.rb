@@ -10,7 +10,36 @@ class DockingStation
   end
 
   def release_bike
-    @bikes.pop if empty?; display_error
+    # display_error if empty?
+    # display_error if first_bike_working? == false
+    # @bikes.shift
+
+    if empty?
+       display_error
+    else
+    ## iteration below
+      released_bike = ''
+      @bikes.each_with_index do | bike, i |
+        if @bikes[i].working == false
+          i = i + 1
+        else
+          released_bike = @bikes.delete_at(i)
+        end
+      end
+
+      # if @bikes[-1].instance_variable_get(:@working) == false
+      #     raise "No bikes available"
+      # end
+
+        # if @bikes.last.instance_variable_get(:@working) == false
+        #   p @bikes.last.instance_variable_get(:@working)
+        #   raise "No bikes available"
+        # else
+        #
+        # end
+
+      released_bike
+    end
   end
 
   def dock(bike)
@@ -29,11 +58,17 @@ class DockingStation
       @bikes.empty?
     end
 
+    def first_bike_working?
+      @bikes.first.working
+    end
+
     def display_error
       if full?
         raise "This station is full, so you can't dock, sorry"
-      elsif empty?
+      elsif empty? || first_bike_working? == false
         raise "No bikes available"
       end
     end
+
+
 end
