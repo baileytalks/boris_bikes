@@ -8,7 +8,7 @@ describe Van do
     expect(subject.bikes).to eq []
   end
 
-  it 'collects broken bikes from docking stations with collect_broken_bikes' do
+  it 'collects a broken bike from docking stations with collect_broken_bikes' do
     ## Using doubles I haven't been able to make this test work:
     # broken_bike = double("broken_bike")
     # docking_station = double("docking_station", :dock => broken_bike, :collect_broken_bikes => [])
@@ -18,6 +18,21 @@ describe Van do
     docking_station.dock(broken_bike)
     docking_station.collect_broken_bikes(subject)
     expect(subject.bikes).to include broken_bike
+  end
+
+  it 'collects 2 broken bikes from docking stations with collect_broken_bikes' do
+    ## Using doubles I haven't been able to make this test work:
+    # broken_bike = double("broken_bike")
+    # docking_station = double("docking_station", :dock => broken_bike, :collect_broken_bikes => [])
+    broken_bike = Bike.new
+    broken_bike2 = Bike.new
+    broken_bike.report_broken
+    broken_bike2.report_broken
+    docking_station = DockingStation.new
+    docking_station.dock(broken_bike)
+    docking_station.dock(broken_bike2)
+    docking_station.collect_broken_bikes(subject)
+    expect(subject.bikes).to include broken_bike2
   end
 
   describe '#deliver' do
@@ -47,9 +62,16 @@ describe Van do
 
     it 'raises an error if an empty van is asked to deliver' do
       garage = Garage.new
-      expect{subject.deliver(garage)}.to raise_error "No bikes to deliver"
+      expect { subject.deliver(garage) }.to raise_error "No bikes to deliver"
     end
+  end
 
+  describe '#collect' do
+    it { is_expected.to respond_to :collect }
+  end
+
+  describe '#distribute' do
+    it { is_expected.to respond_to :distribute }
   end
 
 end

@@ -43,7 +43,15 @@ class DockingStation
   def collect_broken_bikes(van)
     @bikes.each_with_index do | bike, i |
       if @bikes[i].working == false
-        van.bikes.push(@bikes[i]) && @bikes.delete_at(i)
+        van.bikes.push(@bikes[i])
+        i = i + 1
+      else
+        i = i + 1
+      end
+    end
+    @bikes.each_with_index do | bike, i |
+      if @bikes[i].working == false
+        @bikes.delete_at(i)
         i = i + 1
       else
         i = i + 1

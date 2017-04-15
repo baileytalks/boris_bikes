@@ -5,4 +5,8 @@ class Garage
     @bikes = [ ]
   end
 
+  # def fix_bikes
+  #   @bikes.map! { |bike, working| working = true }
+  # end
+
 end
