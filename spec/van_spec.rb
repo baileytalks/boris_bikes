@@ -20,4 +20,30 @@ describe Van do
     expect(subject.bikes).to include broken_bike
   end
 
+  describe '#deliver' do
+    it { is_expected.to respond_to :deliver }
+
+    it 'delivers broken bikes when asked to deliver, leaving no bikes in the van' do
+      broken_bike = Bike.new
+      broken_bike.report_broken
+      docking_station = DockingStation.new
+      docking_station.dock(broken_bike)
+      docking_station.collect_broken_bikes(subject)
+      garage = Garage.new
+      subject.deliver(garage)
+      expect(subject.bikes.count).to eq 0
+    end
+
+    it 'delivers broken bikes to the garage when asked to deliver' do
+      broken_bike = Bike.new
+      broken_bike.report_broken
+      docking_station = DockingStation.new
+      docking_station.dock(broken_bike)
+      docking_station.collect_broken_bikes(subject)
+      garage = Garage.new
+      subject.deliver(garage)
+      expect(garage.bikes).to include broken_bike
+    end
+  end
+
 end

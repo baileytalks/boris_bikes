@@ -5,7 +5,4 @@ class Garage
     @bikes = [ ]
   end
 
-  def van_delivery
-  end
-
 end
