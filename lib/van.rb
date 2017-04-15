@@ -7,7 +7,7 @@ class Van
 
   def deliver(garage)
     if @bikes.count == 0
-      raise_error "No bikes to deliver"
+      raise "No bikes to deliver"
     else
       garage.bikes.concat(@bikes)
       @bikes = []

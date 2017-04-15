@@ -44,6 +44,12 @@ describe Van do
       subject.deliver(garage)
       expect(garage.bikes).to include broken_bike
     end
+
+    it 'raises an error if an empty van is asked to deliver' do
+      garage = Garage.new
+      expect{subject.deliver(garage)}.to raise_error "No bikes to deliver"
+    end
+
   end
 
 end
