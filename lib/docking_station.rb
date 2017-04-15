@@ -1,4 +1,5 @@
 require_relative 'bike'
+require_relative 'van'
 
 class DockingStation
   attr_reader :bikes, :capacity
@@ -38,6 +39,17 @@ class DockingStation
     end
   end
 
+  def collect_broken_bikes(van)
+    @bikes.each_with_index do | bike, i |
+      if @bikes[i].working == false
+        van.bikes.push(@bikes[i]) && @bikes.delete_at(i)
+        i = i + 1
+      else
+        i = i + 1
+      end
+    end
+  end
+
   private
     def full?
       @bikes.count >= @capacity
@@ -58,6 +70,4 @@ class DockingStation
         raise "No bikes available"
       end
     end
-
-
 end
